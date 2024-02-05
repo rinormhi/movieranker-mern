@@ -20,7 +20,7 @@ const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
             throw new Error("MongoDB connection URI is not defined in the environment variables.");
         }
         const conn = yield mongoose_1.default.connect(mongoURI, {});
-        console.log(`MongoDB Connected: ${conn.connection.host}`.cyan.bold);
+        console.log(`MongoDB Connected: ${conn.connection.host}`.bgBlack.green.bold);
     }
     catch (error) {
         console.log(`Error: ${error.message}`);

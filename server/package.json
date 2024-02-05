@@ -6,8 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "build": "tsc -p tsconfig.json",
-    "server": "node server.js",
-    "client": "cd .. && cd client && cd movieranker && npm start"
+    "server": "node dist/server.js",
+    "client": "cd .. && cd client && npm start"
   },
   "keywords": [],
   "author": "",
@@ -48,6 +48,7 @@
     "typescript": "^5.3.3"
   },
   "devDependencies": {
+    "@types/colors": "^1.2.1",
     "concurrently": "^8.2.2",
     "ts-node": "^10.9.2"
   }

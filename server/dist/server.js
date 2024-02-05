@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const db_1 = __importDefault(require("./config/db"));
+const colors_1 = __importDefault(require("colors"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const users_1 = __importDefault(require("./routes/users"));
@@ -37,6 +38,7 @@ app.use((0, cors_1.default)({
 // Routes
 app.use("/api/users", users_1.default);
 app.use("/auth", auth_1.default);
+console.log(colors_1.default);
 app.listen(process.env.PORT, () => {
-    console.log(`Server is running on ${process.env.NODE_ENV}-mode on port ${process.env.PORT}`.yellow.bold);
+    console.log(`Server is running on ${process.env.NODE_ENV}-mode on port ${process.env.PORT}`.bgBlack.yellow.bold);
 });

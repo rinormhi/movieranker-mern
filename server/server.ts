@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import express from "express";
+import express, { Request, Response } from "express";
 import connectDB from "./config/db";
 import colors from "colors";
 import bodyParser from "body-parser";
@@ -44,5 +44,5 @@ app.use("/api/users", userRouter);
 app.use("/auth", authRouter);
 
 app.listen(process.env.PORT, () => {
-    console.log(`Server is running on ${process.env.NODE_ENV}-mode on port ${process.env.PORT}`.yellow.bold);
+    console.log(`Server is running on ${process.env.NODE_ENV}-mode on port ${process.env.PORT}`.bgBlack.yellow.bold);
 });
