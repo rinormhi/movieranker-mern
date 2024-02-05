@@ -1,10 +1,11 @@
 import passport from "passport";
+import { Request, Response } from "express";
 import User from "../models/User";
 import bcrypt from "bcrypt";
 import { passwordStrength } from 'check-password-strength';
 
 class UserController {
-    create = async (req, res) => {
+    create = async (req: Request, res: Response) => {
         try {
             const { fname, lname, username, email, password, confirmPassword } = req.body;
 
@@ -40,20 +41,20 @@ class UserController {
                 message: "Benutzer erfolgreich angelegt."
             });
             console.log("Benutzer erfolgreich erstellt");
-        } catch (err) {
+        } catch (error: any) {
 
-            if (err.code === 11000 && err.keyPattern && err.keyPattern.username) {
-                console.error("Benutzername bereits vergeben. Error Details:", err);
+            if (error.code === 11000 && error.keyPattern && error.keyPattern.username) {
+                console.error("Benutzername bereits vergeben. Error Details:", error);
 
                 return res.status(400).json({ message: "Benutzername bereits vergeben." })
             }
-            if (err.code === 11000 && err.keyPattern && err.keyPattern.email) {
-                console.error("E-Mail bereits vergeben. Error Details:", err);
+            if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
+                console.error("E-Mail bereits vergeben. Error Details:", error);
 
                 return res.status(400).json({ message: "E-Mail bereits vergeben." })
             }
 
-            res.status(500).json({ message: "Interner Serverfehler", err });
+            res.status(500).json({ message: "Interner Serverfehler", error });
         }
     }
 
@@ -81,8 +82,8 @@ class UserController {
     //         }
 
 
-    //     } catch (err) {
-    //         console.error(err);
+    //     } catch (error) {
+    //         console.error(error);
     //         res.status(500).json({ message: "Interner Serverfehler" });
     //     }
     // }
