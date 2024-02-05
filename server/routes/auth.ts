@@ -10,30 +10,6 @@ dotenv.config();
 
 configurePassport();
 
-// router.post("/login", (req, res, next) => {
-//     passport.authenticate("local", (err, user, info) => {
-//         console.log("authenticate");
-//         if (err) {
-//             console.log(err);
-//             return res.status(500).json({ success: false, message: "Internal Server Error", error: info.message });
-//         }
-
-//         req.login(user, (err) => {
-//             if (err) {
-//                 return res.status(500).json({ success: false, message: "Internal Server Error" });
-//             }
-
-//             const payload = { userId: user._id, username: user.username };
-//             const token = JWT.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: "1h" });
-
-//             console.log('Authentication successful');
-//             res.cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'none' });
-
-//             return res.json({ token, success: true, message: "Authentication successful", user: user });
-//         });
-//     });
-// });
-
 router.post('/login', (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
         if (err) {
@@ -49,8 +25,16 @@ router.post('/login', (req, res, next) => {
                 console.error("req.login()-Error:", err);
                 return res.status(500).json({ success: false, message: 'Internal Server Error' });
             }
+
+            const secretKey = process.env.JWT_SECRET_KEY;
+
+            if (!secretKey) {
+                console.error("JWT_SECRET_KEY is not defined in the environment variables");
+                return res.status(500).json({ success: false, message: 'Internal Server Error' });
+            }
+            
             const payload = { userId: user._id, username: user.username };
-            const token = JWT.sign(payload, process.env.JWT_SECRET_KEY, { expiresIn: "1h" });
+            const token = JWT.sign(payload, secretKey, { expiresIn: "1h" });
 
             console.log('Authentication successful');
             res.cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'none' });
