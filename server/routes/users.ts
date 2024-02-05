@@ -1,5 +1,5 @@
-const express = require("express");
-const UserController = require("../controllers/UserController");
+import express from "express";
+import UserController from "../controllers/UserController";
 const router = express.Router();
 
 const uc = new UserController();
@@ -13,4 +13,4 @@ router.post("/local", (req, res) => {
 
 });
 
-module.exports = router;
+export default router;

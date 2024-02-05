@@ -1,7 +1,7 @@
-const passport = require("passport");
-const User = require("../models/User");
-const bcrypt = require("bcrypt");
-const { passwordStrength } = require('check-password-strength')
+import passport from "passport";
+import User from "../models/User";
+import bcrypt from "bcrypt";
+import { passwordStrength } from 'check-password-strength';
 
 class UserController {
     create = async (req, res) => {
@@ -88,4 +88,4 @@ class UserController {
     // }
 }
 
-module.exports = UserController;
+export default UserController;

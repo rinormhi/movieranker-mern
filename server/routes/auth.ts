@@ -1,10 +1,10 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const passport = require("passport");
-const configurePassport = require("../passport");
-const JWT = require('jsonwebtoken');
-const bcrypt = require("bcrypt");
-const dotenv = require("dotenv");
+import passport from "passport";
+import configurePassport from "../passport";
+import JWT from 'jsonwebtoken';
+import bcrypt from "bcrypt";
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -98,4 +98,5 @@ router.get("/fail", () => {
     console.log("fail");
 });
 
-module.exports = router;
+
+export default router;
