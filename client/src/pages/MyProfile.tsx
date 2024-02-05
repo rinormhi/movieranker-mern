@@ -3,7 +3,7 @@ import { UserContext } from "../context/UserContext";
 
 const MyProfile = () => {
 
-    const { user, setUser } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     return (
         <>
             <div className="w-1/2 py-10 mx-auto text-center">

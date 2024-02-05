@@ -27,7 +27,7 @@ function App() {
 }
 
 function AppContent() {
-  const { loggedIn, setLoggedIn, registrationSucceed, isAuthenticated, setIsAuthenticated, user, setUser } = useContext(UserContext);
+  const { initializedUser, registrationSucceed, isAuthenticated, setIsAuthenticated, setUser } = useContext(UserContext);
 
   useEffect(() => {
     axiosInstance.post("http://localhost:5001/auth/checkauth")
@@ -37,7 +37,7 @@ function AppContent() {
           setUser(res.data.user)
         } else {
           setIsAuthenticated(false);
-          setUser("");
+          setUser(initializedUser);
         }
       })
       .catch(err => {
@@ -46,7 +46,7 @@ function AppContent() {
 
   return (
     <>
-      <Header isAuthenticated={isAuthenticated} />
+      <Header />
       <Routes>
         <Route index element={<Home />} />
         <Route

@@ -1,10 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState, FormEvent } from "react";
 import { UserContext } from "../context/UserContext";
 import axiosInstance from '../axiosInstance';
 
-const google = () => {
-    window.open("/auth/google");
-}
 
 const LoginForm = () => {
     const {
@@ -16,7 +13,7 @@ const LoginForm = () => {
 
     const [error, setError] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         axiosInstance.post("/auth/login", {
             email: email,

@@ -15,6 +15,7 @@ const Footer = () => {
                             href="#"
                             color="blue-gray"
                             className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
+                            placeholder={"Platzhalter"}
                         >
                             About Us
                         </Typography>
@@ -25,6 +26,7 @@ const Footer = () => {
                             href="#"
                             color="blue-gray"
                             className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
+                            placeholder={"Platzhalter"}
                         >
                             License
                         </Typography>
@@ -35,6 +37,7 @@ const Footer = () => {
                             href="#"
                             color="blue-gray"
                             className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
+                            placeholder={"Platzhalter"}
                         >
                             Contribute
                         </Typography>
@@ -45,6 +48,7 @@ const Footer = () => {
                             href="#"
                             color="blue-gray"
                             className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
+                            placeholder={"Platzhalter"}
                         >
                             Contact Us
                         </Typography>
@@ -52,7 +56,10 @@ const Footer = () => {
                 </ul>
             </div>
             <hr className="my-8 border-blue-gray-50" />
-            <Typography color="blue-gray" className="z-10 text-center font-normal">
+            <Typography
+                color="blue-gray"
+                className="z-10 text-center font-normal"
+                placeholder={"Platzhalter"}>
                 &copy; {year} MovieRanker
             </Typography>
         </footer>
