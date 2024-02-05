@@ -16,7 +16,6 @@ import MyProfile from "./pages/MyProfile";
 import axios from "axios";
 import axiosInstance from "./axiosInstance";
 
-
 function App() {
   return (
     <BrowserRouter>
