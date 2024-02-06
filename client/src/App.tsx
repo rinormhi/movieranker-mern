@@ -5,6 +5,8 @@ import { useContext, useEffect, useState } from "react";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 
+
+
 // Pages
 import Home from "./pages/Home";
 import Register from "./pages/Register";
@@ -46,28 +48,30 @@ function AppContent() {
 
   return (
     <>
-      <Header />
-      <Routes>
-        <Route index element={<Home />} />
-        <Route
-          path="/register"
-          element={registrationSucceed || isAuthenticated ? <Navigate to="/login" /> : <Register />} />
-        <Route
-          path="/login"
-          element={isAuthenticated ? <Navigate to="/" /> : <Login />}
-        />
-        <Route
-          path="/exclusive"
-          element={isAuthenticated ? <Navigate to="/" /> : <Exclusive />}
-        />
+      <div className="bg-color-dark px-4">
+        <Header />
+        <Routes>
+          <Route index element={<Home />} />
+          <Route
+            path="/register"
+            element={registrationSucceed || isAuthenticated ? <Navigate to="/login" /> : <Register />} />
+          <Route
+            path="/login"
+            element={isAuthenticated ? <Navigate to="/" /> : <Login />}
+          />
+          <Route
+            path="/exclusive"
+            element={isAuthenticated ? <Navigate to="/" /> : <Exclusive />}
+          />
 
-        <Route
-          path="/my-profile"
-          element={isAuthenticated ? <MyProfile /> : <Navigate to="/login" />}
-        />
-        <Route path="/*" element={<NotFound />} />
-      </Routes>
-      <Footer />
+          <Route
+            path="/my-profile"
+            element={isAuthenticated ? <MyProfile /> : <Navigate to="/login" />}
+          />
+          <Route path="/*" element={<NotFound />} />
+        </Routes>
+        <Footer />
+      </div>
     </>
   );
 }

@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { UserContext } from '../../context/UserContext';
 import axiosInstance from '../../axiosInstance';
 
-export default function Header() {
 
+export default function Header() {
     const { isAuthenticated, setIsAuthenticated, user } = useContext(UserContext);
 
     const logout = () => {
@@ -21,41 +21,50 @@ export default function Header() {
 
     return (
         <header className='z-10'>
-            <div className="wrapper max-w-7xl mx-auto py-10 flex justify-between items-center">
+            <div className="wrapper max-w-7xl mx-auto py-6 flex justify-between items-center">
                 <Link
-                    className='z-10 logo text-xl font-bold'
+                    className='z-10 logo text-2xl font-semibold text-color-primary hover:text-color-primary-hover transition-all'
                     to="/">MovieRanker
                 </Link>
-                <nav className='z-10 flex gap-5 font-semibold hover:text-red'>
+                <nav className='flex justify-between gap-4 z-10 font-semibold'>
                     <Link
-                        to="/movies"
-                    >
-                        Movies
+                        className='text-color-link hover:text-color-link-hover transition-all active:text-color-link-active'
+                        to="/">
+                        Home
                     </Link>
-                </nav>
-                <div className="z-10">
+                    <Link
+                        className='text-color-link hover:text-color-link-hover transition-all active:text-color-link-active'
+                        to="/">
+                        Filme
+                    </Link>
+                    <Link
+                        className='text-color-link hover:text-color-link-hover transition-all active:text-color-link-active'
+                        to="/">
+                        Mitglieder
+                    </Link>
                     {isAuthenticated ?
                         <>
                             <Link
+                                className='text-color-link hover:text-color-link-hover transition-all active:text-color-link-active'
                                 to="my-profile"
-                                className="z-10 -mx-3 block rounded-lg px-3text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                             >
                                 {user.username}
                             </Link>
                             <Link
-                                // onClick={logout}
-                                to="/logout">
+                                className='text-color-link hover:text-color-link-hover transition-all active:text-color-link-active'
+                                onClick={logout}
+                                to="/">
                                 Log out
                             </Link>
                         </> :
                         <Link
+                            className='text-color-link hover:text-color-link-hover transition-all active:text-color-link-active'
                             to="/login"
-                            className="z-10 -mx-3 block rounded-lg px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                         >
                             Log in
                         </Link>
                     }
-                </div>
+                </nav>
             </div>
         </header>
     )
