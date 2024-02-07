@@ -1,6 +1,5 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import validator from "validator";
+import { useContext, useState, FormEvent } from "react";
 import { UserContext } from "../context/UserContext";
 
 const RegisterForm = () => {
@@ -9,19 +8,16 @@ const RegisterForm = () => {
         uname, setUname,
         fname, setFname,
         lname, setLname,
-        loggedIn, setLoggedIn,
         email, setEmail,
         password, setPassword,
         confirmPassword, setConfirmPassword,
-        registrationSucceed, setRegistrationSucceed
+        setRegistrationSucceed
     } = useContext(UserContext);
 
-    const [emailError, setEmailError] = useState("");
-    const [passwordError, setPasswordError] = useState("");
     const [error, setError] = useState("");
 
-    const handleSubmit = (e) => {
-        e.preventDefault(e);
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
 
         axios.post("http://localhost:5001/api/users/register", {
             fname,
@@ -45,57 +41,6 @@ const RegisterForm = () => {
             })
     }
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     try {
-
-    //         const axiosResponse = await axios.post("http://localhost:5001/api/users/register", {
-    //             // id: Math.random() * 100000, // Alternative suchen, da Duplikate entstehen können
-    //             fname: fname,
-    //             lname: lname,
-    //             username: uname,
-    //             email: email,
-    //             password: password,
-    //             confirmPassword: confirmPassword
-    //         }, {
-    //             headers: {
-    //                 "Content-Type": "application/json"
-    //             }
-    //         });
-
-    //         console.log(axiosResponse.response);
-    //         setRegistrationSucceed(true);
-
-    //         setError(emailError + passwordError)
-
-    //     } catch (error) {
-    //         setError(error.response.data.message);
-    //     }
-
-    //     setEmail("");
-    //     setPassword("");
-    // }
-
-    // useEffect(() => {
-    //     if (validator.isEmail(email)) {
-    //         setEmailError("");
-    //     } else {
-    //         setEmailError("E-Mail ist nicht richtig.");
-    //     }
-    //     if (validator.isStrongPassword(password,
-    //         {
-    //             minLength: 8,
-    //             minLowercase: 1,
-    //             minUppercase: 1,
-    //             minNumbers: 1,
-    //             minSymbols: 1
-    //         })) {
-    //         setPasswordError("");
-    //     } else {
-    //         setPasswordError("Dein Passwort sollte mindestens 8 Zeichen enthalten. Davon ein kleines, ein großes, eine Zahl und ein Symbol.");
-    //     }
-    // }, [email, password]);
-
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -109,9 +54,6 @@ const RegisterForm = () => {
                         Sign up for free
                     </h2>
                 </div>
-
-
-
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form onSubmit={e => handleSubmit(e)} className="space-y-6" action="#" method="POST">
                         <div className="flex justify-between gap-5">

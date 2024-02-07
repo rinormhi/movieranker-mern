@@ -5,6 +5,8 @@ import { useContext, useEffect, useState } from "react";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 
+
+
 // Pages
 import Home from "./pages/Home";
 import Register from "./pages/Register";
@@ -15,7 +17,6 @@ import Exclusive from "./pages/Exclusive";
 import MyProfile from "./pages/MyProfile";
 import axios from "axios";
 import axiosInstance from "./axiosInstance";
-
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
 }
 
 function AppContent() {
-  const { loggedIn, setLoggedIn, registrationSucceed, isAuthenticated, setIsAuthenticated, user, setUser } = useContext(UserContext);
+  const { initializedUser, registrationSucceed, isAuthenticated, setIsAuthenticated, setUser } = useContext(UserContext);
 
   useEffect(() => {
     axiosInstance.post("http://localhost:5001/auth/checkauth")
@@ -38,7 +39,7 @@ function AppContent() {
           setUser(res.data.user)
         } else {
           setIsAuthenticated(false);
-          setUser("");
+          setUser(initializedUser);
         }
       })
       .catch(err => {
@@ -47,28 +48,30 @@ function AppContent() {
 
   return (
     <>
-      <Header isAuthenticated={isAuthenticated} />
-      <Routes>
-        <Route index element={<Home />} />
-        <Route
-          path="/register"
-          element={registrationSucceed || isAuthenticated ? <Navigate to="/login" /> : <Register />} />
-        <Route
-          path="/login"
-          element={isAuthenticated ? <Navigate to="/" /> : <Login />}
-        />
-        <Route
-          path="/exclusive"
-          element={isAuthenticated ? <Navigate to="/" /> : <Exclusive />}
-        />
+      <div className="bg-color-dark px-4">
+        <Header />
+        <Routes>
+          <Route index element={<Home />} />
+          <Route
+            path="/register"
+            element={registrationSucceed || isAuthenticated ? <Navigate to="/login" /> : <Register />} />
+          <Route
+            path="/login"
+            element={isAuthenticated ? <Navigate to="/" /> : <Login />}
+          />
+          <Route
+            path="/exclusive"
+            element={isAuthenticated ? <Navigate to="/" /> : <Exclusive />}
+          />
 
-        <Route
-          path="/my-profile"
-          element={isAuthenticated ? <MyProfile /> : <Navigate to="/login" />}
-        />
-        <Route path="/*" element={<NotFound />} />
-      </Routes>
-      <Footer />
+          <Route
+            path="/my-profile"
+            element={isAuthenticated ? <MyProfile /> : <Navigate to="/login" />}
+          />
+          <Route path="/*" element={<NotFound />} />
+        </Routes>
+        <Footer />
+      </div>
     </>
   );
 }
