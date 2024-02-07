@@ -34,7 +34,7 @@ export default function Header() {
                     </Link>
                     <Link
                         className='text-color-link hover:text-color-link-hover transition-all active:text-color-link-active'
-                        to="/">
+                        to="/movies">
                         Filme
                     </Link>
                     <Link

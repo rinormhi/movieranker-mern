@@ -17,6 +17,7 @@ import Exclusive from "./pages/Exclusive";
 import MyProfile from "./pages/MyProfile";
 import axios from "axios";
 import axiosInstance from "./axiosInstance";
+import Movies from "./pages/Movies";
 
 function App() {
   return (
@@ -63,7 +64,9 @@ function AppContent() {
             path="/exclusive"
             element={isAuthenticated ? <Navigate to="/" /> : <Exclusive />}
           />
-
+          <Route
+            path="/movies"
+            element={<Movies />} />
           <Route
             path="/my-profile"
             element={isAuthenticated ? <MyProfile /> : <Navigate to="/login" />}
