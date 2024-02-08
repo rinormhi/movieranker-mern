@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import connectDB from "./config/db";
-import colors from "colors";
 import bodyParser from "body-parser";
 import cors from "cors";
 import userRouter from "./routes/users";
@@ -9,22 +8,24 @@ import authRouter from "./routes/auth";
 import movieRouter from "./routes/movie";
 import flash from "connect-flash";
 import cookieParser from 'cookie-parser';
-// TEST
-
+import MongoStore from "connect-mongo";
+import session from "express-session";
 import passport from "passport";
 
-const app = express();
-
 dotenv.config();
+
+const PORT = process.env.PORT || 5001;
+const app = express();
 
 connectDB();
 
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
-
-import session from "express-session";
 app.use(session({
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGO_URI
+    }),
     secret: 'secrettexthere',
     saveUninitialized: true,
     resave: true,
@@ -32,10 +33,9 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use(flash());
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://movieranker-mern.onrender.com/',
     credentials: true,
 }));
 
@@ -45,6 +45,6 @@ app.use("/api/users", userRouter);
 app.use("/auth", authRouter);
 app.use("/api/movies", movieRouter);
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server is running on ${process.env.NODE_ENV}-mode on port ${process.env.PORT}`);
+app.listen(PORT, () => {
+    console.log(`Server is running on ${process.env.NODE_ENV}-mode on port ${PORT}`);
 });
