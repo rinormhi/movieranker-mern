@@ -18,6 +18,7 @@ import MyProfile from "./pages/MyProfile";
 import axios from "axios";
 import axiosInstance from "./axiosInstance";
 import Movies from "./pages/Movies";
+import Movie from "./pages/Movie";
 
 function App() {
   return (
@@ -44,6 +45,8 @@ function AppContent() {
         }
       })
       .catch(err => {
+        console.log(err);
+        
       });
   }, [])
 
@@ -71,9 +74,13 @@ function AppContent() {
             path="/my-profile"
             element={isAuthenticated ? <MyProfile /> : <Navigate to="/login" />}
           />
+          <Route
+            path="/movie/:MOVIEID"
+            element={<Movie />}
+          />
           <Route path="/*" element={<NotFound />} />
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </>
   );

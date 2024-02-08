@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import userRouter from "./routes/users";
 import authRouter from "./routes/auth";
+import movieRouter from "./routes/movie";
 import flash from "connect-flash";
 import cookieParser from 'cookie-parser';
 // TEST
@@ -42,7 +43,8 @@ app.use(cors({
 
 app.use("/api/users", userRouter);
 app.use("/auth", authRouter);
+app.use("/api/movies", movieRouter);
 
 app.listen(process.env.PORT, () => {
-    console.log(`Server is running on ${process.env.NODE_ENV}-mode on port ${process.env.PORT}`.bgBlack.yellow.bold);
+    console.log(`Server is running on ${process.env.NODE_ENV}-mode on port ${process.env.PORT}`);
 });

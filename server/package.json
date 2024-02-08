@@ -5,9 +5,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"npm run server\" \"npm run client\"",
+    "build-sc": "concurrently \"tsc -p tsconfig.json\" \"npm run build-client\"",
     "build": "tsc -p tsconfig.json",
     "server": "node dist/server.js",
-    "client": "cd .. && cd client && npm start"
+    "client": "cd .. && cd client && npm start",
+    "build-client": "cd .. && cd client && npm run build"
   },
   "keywords": [],
   "author": "",

@@ -33,7 +33,10 @@ module.exports = {
       "color-secondary": "#4c5a67",
       "color-secondary-hover": "#fbd446",
       "color-input-bg": "#1c252f",
-      "color-dark-grey": "#11161c"
+      "color-dark-grey": "#11161c",
+      "color-subtitle": "#6a7c8f",
+      "color-transparent": "rgba(0,0,0,0)",
+      "color-body": "#b9bdcc"
     },
   },
   plugins: [
