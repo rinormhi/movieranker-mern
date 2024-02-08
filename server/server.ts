@@ -46,5 +46,5 @@ app.use("/auth", authRouter);
 app.use("/api/movies", movieRouter);
 
 app.listen(PORT, () => {
-    console.log(`Server is running on ${process.env.NODE_ENV}-mode on port ${PORT}`);
+    console.log(`Server is running on ${process.env.NODE_ENV}-mode on port ${PORT}!`);
 });

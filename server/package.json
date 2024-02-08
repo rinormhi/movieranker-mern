@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "npm install && concurrently \"npm run start-server\" \"npm run start-client\" --kill-others",
+    "start": "npm install && npm run start-server & npm run start-client",
     "start-server": "node dist/server.js",
-    "start-client": "cd ../client && npm start",
+    "start-client": "(cd ../client && npm install && npm start)",
     "build": "npm install && npm run build-server && npm run build-client",
     "build-server": "tsc -p tsconfig.json",
-    "build-client": "cd ../client && npm install && npm run build",
+    "build-client": "(cd ../client && npm install && npm run build)",
     "dev": "npm run start",
     "dev-server": "tsc -p tsconfig.json --watch",
-    "dev-client": "cd ../client && npm start"
+    "dev-client": "(cd ../client && npm start)"
   },
   "keywords": [],
   "author": "",
