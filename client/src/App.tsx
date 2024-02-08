@@ -15,7 +15,6 @@ import NotFound from "./pages/NotFound";
 import UserProvider, { UserContext } from "./context/UserContext";
 import Exclusive from "./pages/Exclusive";
 import MyProfile from "./pages/MyProfile";
-import axios from "axios";
 import axiosInstance from "./axiosInstance";
 import Movies from "./pages/Movies";
 import MoviePage from "./pages/MoviePage";
@@ -34,7 +33,7 @@ function AppContent() {
   const { initializedUser, registrationSucceed, isAuthenticated, setIsAuthenticated, setUser } = useContext(UserContext);
 
   useEffect(() => {
-    axiosInstance.post("http://localhost:5001/auth/checkauth")
+    axiosInstance.post("/auth/checkauth")
       .then(res => {
         if (res.data.success) {
           setIsAuthenticated(true);
@@ -48,7 +47,7 @@ function AppContent() {
         console.log(err);
 
       });
-  }, [])
+  }, []);
 
   return (
     <>

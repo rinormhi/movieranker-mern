@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from '../axiosInstance';
 import { useContext, useState, FormEvent } from "react";
 import { UserContext } from "../context/UserContext";
 import Button from "./common/Button";
@@ -21,7 +21,7 @@ const RegisterForm = () => {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        axios.post("http://localhost:5001/api/users/register", {
+        axiosInstance.post("/api/users/register", {
             fname,
             lname,
             username: uname,
