@@ -1,58 +1,25 @@
 import { useState, useEffect } from 'react';
 import axiosInstance from '../axiosInstance';
-import Button from '../components/common/Button';
-import { Link } from 'react-router-dom';
+import Dropdown from '../components/common/Dropdown';
+import ProviderList from "../components/common/ProviderList";
+import { WatchProvider } from '../interfaces/WatchProvider'
+import MovieList from '../components/common/MovieList';
 
+const Movies: React.FC = () => {
 
-interface Movie {
-    poster_path: string;
-    id: string;
-    popularity: number;
-    release_date: Date;
-    title: string;
-    vote_average: number;
-    vote_count: number
-}
-
-const MovieList: React.FC = () => {
-    const [movies, setMovies] = useState<Movie[]>([]);
+    const [providers, setProviders] = useState<WatchProvider[]>();
 
     useEffect(() => {
         axiosInstance
-            .get("/api/movies/popular")
-            .then((res) => {
-                console.log(res);
-                setMovies(res.data.results);
+            .get("/api/movies/getwatchproviders")
+            .then((res => {
+                setProviders(res.data);
+            }))
+            .catch((err: Error) => {
+                console.log("/api/movies/getwatchproviders ERROR:", err);
             })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
+    }, [])
 
-    return (
-        <>
-            <div className='flex flex-wrap gap-[21px] mt-4'>
-                {
-                    movies.map((movie) => (
-                        <Link
-                            to={`/movie/${movie.id}`}
-                            className="w-[calc(20%-17px)]" >
-                            <div
-                                key={movie.id}>
-                                <img
-                                    className='rounded-md '
-                                    src={`https://image.tmdb.org/t/p/w342/` + movie.poster_path} alt={movie.title} />
-                            </div>
-                        </Link>
-                    ))
-                }
-                <Button name="Mehr anzeigen" classes='mx-auto w-full' />
-            </div >
-        </>
-    )
-}
-
-const Movies: React.FC = () => {
     return (
         <>
             <div className="wrapper w-full md:max-w-7xl mx-auto flex flex-col justify-between ">
@@ -71,24 +38,7 @@ const Movies: React.FC = () => {
                         Mit MovieRaker kannst du auch entdecken, welche neuen Filme und Serien du in Deutschland bald streamen kannst. Du hast auch die Möglichkeit mithilfe von Filtern nach demnächst verfügbaren Filmen und Serien separat zu suchen.
                     </p>
                 </div>
-                <div className="mt-4 providers flex gap-2">
-                    <div className="provider">
-                        <img
-                            className="rounded-md w-14"
-                            src="https://www.justwatch.com/images/icon/207360008/s100/netflix" alt="" />
-                    </div>
-                    <div className="provider">
-                        <img
-                            className="rounded-md w-14"
-                            src="https://www.justwatch.com/images/icon/52449539/s100/amazonprime" alt="" />
-                    </div>
-                    <div className="provider">
-                        <img
-                            className="rounded-md w-14"
-                            src="https://www.justwatch.com/images/icon/147638351/s100/disneyplus" alt="" />
-                    </div>
-
-                </div>
+                <ProviderList providers={providers} />
                 <div className="filter-options mt-4 flex gap-8 justify-between text-color-dark-white items-center">
                     <div className="contentType flex gap-4 text-2xl text-color-dark-white">
                         <div className="contentTypeOption font-extrabold">
@@ -103,23 +53,23 @@ const Movies: React.FC = () => {
                     </div>
                     <div className="filterOptions flex gap-4 text-md font-medium">
                         <div className="filterOption text-color-link hover:text-color-link-hover cursor-pointer">
-                            Erscheinungsjahr
+                            <Dropdown name="Erscheinungsjahr" />
                         </div>
 
                         <div className="filterOption text-color-link hover:text-color-link-hover cursor-pointer">
-                            Genres
+                            <Dropdown name="Genres" />
                         </div>
 
                         <div className="filterOption text-color-link hover:text-color-link-hover cursor-pointer">
-                            Preis
+                            <Dropdown name="Preis" />
                         </div>
 
                         <div className="filterOption text-color-link hover:text-color-link-hover cursor-pointer">
-                            Bewertung
+                            <Dropdown name="Bewertung" />
                         </div>
 
                         <div className="filterOption text-color-link hover:text-color-link-hover cursor-pointer">
-                            Produktionsland
+                            <Dropdown name="Produktionsland" />
                         </div>
                     </div>
                     <div className="resetOption text-color-link hover:text-color-link-hover cursor-pointer flex text-sm items-center">

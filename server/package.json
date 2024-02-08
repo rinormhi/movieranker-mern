@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"npm run server\" \"npm run client\" --kill-others",
-    "build-sc": "npm install && concurrently \"tsc -p tsconfig.json\" \"npm run build-client\"",
-    "build": "npm install && tsc -p tsconfig.json",
-    "server": "node dist/server.js",
-    "client": "cd .. && cd client && npm start",
-    "build-client": "cd .. && cd client && npm install && npm run build"
+    "start": "npm install && concurrently \"npm run start-server\" \"npm run start-client\" --kill-others",
+    "start-server": "node dist/server.js",
+    "start-client": "cd ../client && npm start",
+    "build": "npm install && npm run build-server && npm run build-client",
+    "build-server": "tsc -p tsconfig.json",
+    "build-client": "cd ../client && npm install && npm run build",
+    "dev": "npm run start",
+    "dev-server": "tsc -p tsconfig.json --watch",
+    "dev-client": "cd ../client && npm start"
   },
   "keywords": [],
   "author": "",

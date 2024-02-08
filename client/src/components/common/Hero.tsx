@@ -1,7 +1,5 @@
-import { useState, useContext } from 'react'
-import { Link } from 'react-router-dom';
+import { useContext } from 'react'
 import { UserContext } from '../../context/UserContext';
-import Button from './Button';
 import ArrowLink from './ArrowLink';
 import { DialogDefault } from './DialogDefault';
 
@@ -21,7 +19,7 @@ export default function Hero() {
             </div>
             {!isAuthenticated ? (
                 <div className="mt-10 flex items-center justify-center gap-x-6">
-                    <DialogDefault />                    
+                    <DialogDefault />
                     <ArrowLink target='/login' name='Log in' />
                 </div>) :
                 ""}

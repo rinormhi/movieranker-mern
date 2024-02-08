@@ -1,20 +1,7 @@
 import React, { useState, ReactNode } from "react";
 import RegisterForm from "../RegisterForm";
 import CustomButton from "../common/Button";
-
-interface DialogProps {
-    open: boolean;
-    handler: () => void;
-    children: ReactNode;
-}
-
-interface ButtonProps {
-    onclick: () => void;
-    variant: string;
-    color?: string;
-    className?: string;
-    children: ReactNode;
-}
+import { DialogProps } from "../../interfaces/DialogProps";
 
 const DialogHeader: React.FC<{ children: ReactNode }> = ({ children }) => (
     <h4 className="text-center pb-4">{children}</h4>

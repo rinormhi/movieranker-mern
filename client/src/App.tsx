@@ -18,7 +18,7 @@ import MyProfile from "./pages/MyProfile";
 import axios from "axios";
 import axiosInstance from "./axiosInstance";
 import Movies from "./pages/Movies";
-import Movie from "./pages/Movie";
+import MoviePage from "./pages/MoviePage";
 
 function App() {
   return (
@@ -46,7 +46,7 @@ function AppContent() {
       })
       .catch(err => {
         console.log(err);
-        
+
       });
   }, [])
 
@@ -76,7 +76,7 @@ function AppContent() {
           />
           <Route
             path="/movie/:MOVIEID"
-            element={<Movie />}
+            element={<MoviePage />}
           />
           <Route path="/*" element={<NotFound />} />
         </Routes>

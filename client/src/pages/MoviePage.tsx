@@ -1,66 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from '../axiosInstance';
+import { Movie } from "../interfaces/Movie";
+import { Provider } from "../interfaces/Provider";
 
-
-
-interface Movie {
-    backdrop_path: string;
-    budget: number;
-    genres: Genre[];
-    homepage: string;
-    id: number;
-    original_language: string;
-    overview: string;
-    popularity: number;
-    poster_path: string;
-    release_date: Date;
-    revenue: number;
-    runtime: number;
-    status: string;
-    tagline: string;
-    title: string;
-    video: boolean;
-    vote_average: number;
-    vote_count: number;
-    production_countries: Production_Country[];
-}
-
-interface Production_Country {
-    iso_3166_1: string;
-    name: string;
-}
-
-interface Genre {
-    id: number;
-    name: string;
-}
-
-interface Provider {
-    flatrate?: {
-        logo_path: string;
-        provider_id: number;
-        provider_name: string;
-        display_priority: number;
-    },
-    buy?: {
-        logo_path: string;
-        provider_id: number;
-        provider_name: string;
-        display_priority: number;
-    },
-    rent?: {
-        logo_path: string;
-        provider_id: number;
-        provider_name: string;
-        display_priority: number;
-    }
-}
-
-const Movie = () => {
+const MoviePage = () => {
 
     const { MOVIEID } = useParams<{ MOVIEID: string }>();
-
     const [movie, setMovie] = useState<Movie>();
     const [providers, setProviders] = useState<Provider>();
 
@@ -130,6 +76,7 @@ const Movie = () => {
                         <div className="py-8 flex flex-col gap-2 border-b border-color-input-bg">
                             <div className="uppercase text-color-subtitle font-bold">
                                 Bewertung
+
                             </div>
                             <div className="text-sm font-light">
                                 {movie?.vote_average.toFixed(2)} - ({movie?.vote_count})
@@ -199,4 +146,4 @@ const Movie = () => {
 
 }
 
-export default Movie;
+export default MoviePage;

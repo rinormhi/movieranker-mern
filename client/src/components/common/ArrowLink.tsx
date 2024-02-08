@@ -1,10 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-interface ArrowLinkProps {
-    target: string;
-    name: string;
-}
+import { ArrowLinkProps } from "../../interfaces/ArrowLinksProps";
 
 const ArrowLink: React.FC<ArrowLinkProps> = ({ target, name }) => {
     return (
