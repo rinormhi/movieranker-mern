@@ -31,7 +31,8 @@ function App() {
 
 function AppContent() {
   const { initializedUser, registrationSucceed, isAuthenticated, setIsAuthenticated, setUser } = useContext(UserContext);
-
+  console.log(process.env.REACT_APP_API_URL);
+  
   useEffect(() => {
     axiosInstance.post("/auth/checkauth")
       .then(res => {

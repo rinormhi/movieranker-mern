@@ -3,15 +3,12 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "npm install && npm run start-server & npm run start-client",
+    "render-build": "npm run build-server && npm run build-client",
+    "build-server": "npm install && tsc -p tsconfig.json",
+    "build-client": "cd ../client && npm install && npm run build",
+    "render-start": "npm-run-all -p start-server start-client",
     "start-server": "node dist/server.js",
-    "start-client": "(cd ../client && npm install && npm start)",
-    "build": "npm install && npm run build-server && npm run build-client",
-    "build-server": "tsc -p tsconfig.json",
-    "build-client": "(cd ../client && npm install && npm run build)",
-    "dev": "npm run start",
-    "dev-server": "tsc -p tsconfig.json --watch",
-    "dev-client": "(cd ../client && npm start)"
+    "start-client": "cd ../client && npm run start"
   },
   "keywords": [],
   "author": "",
@@ -58,6 +55,7 @@
     "@types/node": "^20.11.16",
     "@types/passport": "^1.0.16",
     "concurrently": "^8.2.2",
+    "npm-run-all": "^4.1.5",
     "ts-node": "^10.9.2"
   }
 }

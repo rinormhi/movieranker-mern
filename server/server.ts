@@ -14,7 +14,7 @@ import passport from "passport";
 
 dotenv.config();
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 const app = express();
 
 connectDB();
@@ -35,11 +35,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use(cors({
-    origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://movieranker-mern.onrender.com/',
+    origin: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.FRONTEND_URL_PROD,
     credentials: true,
 }));
 
 // Routes
+
+app.get("/", (req: Request, res: Response) => {
+    res.send("Hi")
+});
 
 app.use("/api/users", userRouter);
 app.use("/auth", authRouter);
