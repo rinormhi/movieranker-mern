@@ -3,7 +3,6 @@ const router = express.Router();
 import passport from "passport";
 import configurePassport from "../passport";
 import JWT, { JwtPayload } from 'jsonwebtoken';
-import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -13,7 +12,6 @@ configurePassport();
 router.post('/login', (req: Request, res: Response, next) => {
     passport.authenticate("local", (error: any, user: any, info: any) => {
         if (error) {
-            console.error(error);
             return res.status(500).json({ success: false, message: 'Internal Server Error', error: info.message });
         }
         if (!user) {
@@ -33,13 +31,14 @@ router.post('/login', (req: Request, res: Response, next) => {
                 return res.status(500).json({ success: false, message: 'Internal Server Error' });
             }
 
-            const payload = { userId: user._id, username: user.username };
-            const token = JWT.sign(payload, secretKey, { expiresIn: "1h" });
+            const payload = {
+                userId: user._id,
+                username: user.username,
+            };
 
-            console.log('Authentication successful');
+            const token = JWT.sign(payload, secretKey, { expiresIn: "1h" });
             res.cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'none' });
 
-            // res.cookie("access_token", token, { httpOnly: true, secure: true, sameSite: "none" });
             return res.json({ token, success: true, message: "Authentication successful", user: user });
         });
     })(req, res);
@@ -53,36 +52,30 @@ router.post("/logout", (req: Request, res: Response, next) => {
 });
 
 const authenticateJWT = (req: Request, res: Response, next: any) => {
-    const token = req.cookies.jwt;
 
+    const token = req.cookies.jwt;
     const secretKey = process.env.JWT_SECRET_KEY;
 
     if (!secretKey) {
         console.error("JWT_SECRET_KEY is not defined in the environment variables");
-        return res.status(500).json({ success: false, message: 'Internal Server Error' });
+        return res.status(500).json({ success: false, message: 'Internal Server Error. JWT_SECRET_KEY is not defined in the environment variables.' });
     }
 
     JWT.verify(token, secretKey, (error: any, decoded: any) => {
         if (error) {
-            return res.status(403).json({ success: false, message: 'Forbidden: Invalid token' });
-        }
-        console.log("Token verified");
 
-        req.user = decoded;
-        console.log(req.user);
+        }
         next();
     });
 };
 
 router.post('/checkauth', authenticateJWT, (req: Request, res: Response) => {
-    console.log(req.cookies);
     if (req.cookies.jwt) {
         res.json({ success: true, message: 'Zugriff gewährt', user: req.user });
-    }
-});
+    } else {
 
-router.get("/fail", () => {
-    console.log("fail");
+        res.json({ success: false, message: "Nicht eingeloggt", user: req.user });
+    }
 });
 
 export default router;

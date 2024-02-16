@@ -27,7 +27,12 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    favoriteMovies: [
+        {
+            type: mongoose.Schema.Types.Number,
+        }
+    ]
 });
 
 userSchema.methods.verifyPassword = async function (password: string) {
@@ -41,6 +46,7 @@ export interface UserDocument extends Document {
     username: string;
     email: string;
     password: string;
+    favoriteMovies: mongoose.Schema.Types.String[];
     verifyPassword(password: string): Promise<boolean>;
 }
 

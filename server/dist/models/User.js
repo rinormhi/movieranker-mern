@@ -63,7 +63,12 @@ const userSchema = new mongoose_1.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    favoriteMovies: [
+        {
+            type: mongoose_1.default.Schema.Types.Number,
+        }
+    ]
 });
 userSchema.methods.verifyPassword = function (password) {
     return __awaiter(this, void 0, void 0, function* () {

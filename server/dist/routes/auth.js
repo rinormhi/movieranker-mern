@@ -31,11 +31,14 @@ router.post('/login', (req, res, next) => {
                 console.error("JWT_SECRET_KEY is not defined in the environment variables");
                 return res.status(500).json({ success: false, message: 'Internal Server Error' });
             }
-            const payload = { userId: user._id, username: user.username };
+            const payload = {
+                userId: user._id,
+                username: user.username,
+            };
             const token = jsonwebtoken_1.default.sign(payload, secretKey, { expiresIn: "1h" });
             console.log('Authentication successful');
             res.cookie('jwt', token, { httpOnly: true, secure: true, sameSite: 'none' });
-            // res.cookie("access_token", token, { httpOnly: true, secure: true, sameSite: "none" });
+            console.log("Login-User:", user);
             return res.json({ token, success: true, message: "Authentication successful", user: user });
         });
     })(req, res);
@@ -49,22 +52,20 @@ router.post("/logout", (req, res, next) => {
 const authenticateJWT = (req, res, next) => {
     const token = req.cookies.jwt;
     const secretKey = process.env.JWT_SECRET_KEY;
+    console.log("authenticateJWT-User:", req.user);
     if (!secretKey) {
         console.error("JWT_SECRET_KEY is not defined in the environment variables");
-        return res.status(500).json({ success: false, message: 'Internal Server Error' });
+        return res.status(500).json({ success: false, message: 'Internal Server Error. JWT_SECRET_KEY is not defined in the environment variables.' });
     }
     jsonwebtoken_1.default.verify(token, secretKey, (error, decoded) => {
         if (error) {
             return res.status(403).json({ success: false, message: 'Forbidden: Invalid token' });
         }
-        console.log("Token verified");
-        req.user = decoded;
-        console.log(req.user);
         next();
     });
 };
 router.post('/checkauth', authenticateJWT, (req, res) => {
-    console.log(req.cookies);
+    console.log("/checkauth-User", req.user);
     if (req.cookies.jwt) {
         res.json({ success: true, message: 'Zugriff gewährt', user: req.user });
     }

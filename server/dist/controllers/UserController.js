@@ -56,29 +56,28 @@ class UserController {
                 res.status(500).json({ message: "Interner Serverfehler", error });
             }
         });
-        // login = async (req, res) => {
-        //     try {
-        //         const { email, password } = req.body;
-        //         const existingUser = await User.findOne({ email });
-        //         if (!existingUser) {
-        //             console.log("Benutzer existiert nicht.");
-        //             return res.status(400).json({ message: "Benutzer existiert nicht." })
-        //         }
-        //         const passwordCorrect = await bcrypt.compare(password, existingUser.password);
-        //         if (passwordCorrect) {
-        //             // TODO: Session Starten, User Context, Weiterleiten, etc.
-        //             return res.status(200).json({
-        //                 message: "Du bist eingeloggt.",
-        //                 email: email
-        //             });
-        //         } else {
-        //             return res.status(400).json({ message: "Passwort falsch." })
-        //         }
-        //     } catch (error) {
-        //         console.error(error);
-        //         res.status(500).json({ message: "Interner Serverfehler" });
-        //     }
-        // }
+        this.addToFavorites = (req, res, movieId) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                console.log("Request:", req);
+                console.log("movieId:", movieId);
+                if (!req.user) {
+                    return res.status(401).json({ success: false, message: "Unauthorized. User not logged in." });
+                }
+                const user = req.user;
+                const movieAlreadyInFavorites = yield User_1.default.findOne({ _id: user._id, favoriteMovies: movieId });
+                if (movieAlreadyInFavorites) {
+                    console.log("Film ist bereits in den favorites");
+                    return res.status(400).json({ success: false, message: 'Movie already in favorites' });
+                }
+                else {
+                    yield User_1.default.updateOne({ _id: user._id }, { $addToSet: { favoriteMovies: movieId } });
+                    console.log("added to favorite movies");
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+        });
     }
 }
 exports.default = UserController;

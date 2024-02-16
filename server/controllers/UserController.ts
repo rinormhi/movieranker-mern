@@ -1,8 +1,9 @@
-import passport from "passport";
 import { Request, Response } from "express";
 import User from "../models/User";
 import bcrypt from "bcrypt";
 import { passwordStrength } from 'check-password-strength';
+import mongoose, { ObjectId } from "mongoose";
+import MovieController from "./MovieController";
 
 class UserController {
     create = async (req: Request, res: Response) => {
@@ -58,35 +59,29 @@ class UserController {
         }
     }
 
-    // login = async (req, res) => {
-    //     try {
-    //         const { email, password } = req.body;
+    addToFavorites = async (req: Request, res: Response, movieId: string) => {
+        try {
+            console.log("Request:", req);
+            console.log("movieId:", movieId);
 
-    //         const existingUser = await User.findOne({ email });
+            if (!req.user) {
+                return res.status(401).json({ success: false, message: "Unauthorized. User not logged in." });
+            }
 
-    //         if (!existingUser) {
-    //             console.log("Benutzer existiert nicht.");
-    //             return res.status(400).json({ message: "Benutzer existiert nicht." })
-    //         }
+            const user: any = req.user;
+            const movieAlreadyInFavorites = await User.findOne({ _id: user._id, favoriteMovies: movieId });
 
-    //         const passwordCorrect = await bcrypt.compare(password, existingUser.password);
-
-    //         if (passwordCorrect) {
-    //             // TODO: Session Starten, User Context, Weiterleiten, etc.
-    //             return res.status(200).json({
-    //                 message: "Du bist eingeloggt.",
-    //                 email: email
-    //             });
-    //         } else {
-    //             return res.status(400).json({ message: "Passwort falsch." })
-    //         }
-
-
-    //     } catch (error) {
-    //         console.error(error);
-    //         res.status(500).json({ message: "Interner Serverfehler" });
-    //     }
-    // }
+            if (movieAlreadyInFavorites) {
+                console.log("Film ist bereits in den favorites");
+                await User.updateOne({ _id: user._id }, { $unset: { favoriteMovies: movieId } })
+                return res.status(400).json({ success: false, message: 'Movie already in favorites' });
+            } else {
+                await User.updateOne({ _id: user._id }, { $addToSet: { favoriteMovies: movieId } });
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
 }
 
 export default UserController;
