@@ -1,15 +1,12 @@
-import { useContext, useState, FormEvent } from "react";
+import { useContext, useState, FormEvent, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import axiosInstance from '../axiosInstance';
 
-
 const LoginForm = () => {
-    const {
-        email, setEmail,
-        password, setPassword,
-        setIsAuthenticated,
-        setUser
-    } = useContext(UserContext);
+    const { setUser, user } = useContext(UserContext);
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const [error, setError] = useState("");
 
@@ -21,8 +18,7 @@ const LoginForm = () => {
         },)
             .then(result => {
                 if (result.data.success) {
-                    setIsAuthenticated(true);
-                    setUser(result.data.user);
+                    setUser(result.data.user);                    
                     setEmail("");
                     setPassword("");
                 } else {

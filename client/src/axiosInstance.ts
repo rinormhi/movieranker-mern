@@ -1,7 +1,7 @@
 // axiosInstance.js
 import axios from 'axios';
 
-const baseURL = "https://movieranker-backend.onrender.com";
+const baseURL = "http://localhost:5001";
 
 const instance = axios.create({
     baseURL: baseURL,

@@ -21,4 +21,5 @@ export interface Movie {
     vote_average: number;
     vote_count: number;
     production_countries: Production_Country[];
+    trailer_key?: string
 }

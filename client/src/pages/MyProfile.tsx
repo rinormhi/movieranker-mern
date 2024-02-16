@@ -14,6 +14,10 @@ const MyProfile = () => {
                 <div>{user._id}</div>
                 <div>Username:</div>
                 <div>{user.username}</div>
+                <div>Favorite Movies</div>
+                <div>{user.favoriteMovies.map(favoriteMovie => (
+                    <div>{favoriteMovie}</div>
+                ))}</div>
             </div>
         </>
     );

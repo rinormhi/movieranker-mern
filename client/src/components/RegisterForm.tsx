@@ -2,19 +2,21 @@ import axiosInstance from '../axiosInstance';
 import { useContext, useState, FormEvent } from "react";
 import { UserContext } from "../context/UserContext";
 import Button from "./common/Button";
+import { useNavigate } from "react-router-dom"
 
 
 const RegisterForm = () => {
 
-    const {
-        uname, setUname,
-        fname, setFname,
-        lname, setLname,
-        email, setEmail,
-        password, setPassword,
-        confirmPassword, setConfirmPassword,
-        setRegistrationSucceed
-    } = useContext(UserContext);
+    const { setUser } = useContext(UserContext);
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+
+    const [username, setUsername] = useState("");
+    const [fname, setFname] = useState("");
+    const [lname, setLname] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
     const [error, setError] = useState("");
 
@@ -24,7 +26,7 @@ const RegisterForm = () => {
         axiosInstance.post("/api/users/register", {
             fname,
             lname,
-            username: uname,
+            username,
             email,
             password,
             confirmPassword
@@ -33,14 +35,25 @@ const RegisterForm = () => {
                 "Content-Type": "application/json"
             }
         })
-            .then(response => {
-                console.log(response);
-                setRegistrationSucceed(true);
+            .then(() => {
+                setUser(prevUser => ({
+                    ...prevUser,
+                    registrationSucceed: true
+                }));
+                setError("");
+                setLoading(true);
+
+                setTimeout(() => {
+                    navigate("/login");
+                    setLoading(false);
+                }, 3000);
+
             })
             .catch(err => {
                 setError(err.response.data.message)
                 console.log(err);
             })
+
     }
 
     return (
@@ -72,10 +85,10 @@ const RegisterForm = () => {
                     </label>
                     <div className="mt-2">
                         <input
-                            onChange={e => setUname(e.target.value)}
-                            value={uname}
-                            id="uname"
-                            name="uname"
+                            onChange={e => setUsername(e.target.value)}
+                            value={username}
+                            id="username"
+                            name="username"
                             type="text"
                             autoComplete="Username"
                             required
@@ -99,7 +112,6 @@ const RegisterForm = () => {
                         />
                     </div>
                 </div>
-
 
                 <div className="flex justify-between gap-5">
                     <div className="w-full">
@@ -134,6 +146,10 @@ const RegisterForm = () => {
                     name="Registrieren"
                 />
             </form>
+
+            <div>
+                {loading && <p className='text-center mt-8'>Registrierung erfolgreich. Du wirst zur Login-Seite weitergeleitet...</p>}
+            </div>
 
             <div className="py-4 text-center text-red-600">
                 {error}

@@ -34,6 +34,19 @@ input {
     @apply w-full bg-color-input-bg sm:text-sm sm:leading-6 px-2 rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset  focus:ring-2 
 }
 
+.container {
+    @apply w-full md:max-w-7xl mx-auto flex flex-col justify-between px-4
+}
+
 * {
     @apply text-color-body
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }

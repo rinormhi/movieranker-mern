@@ -3,11 +3,14 @@ import { useParams } from "react-router-dom";
 import axiosInstance from '../axiosInstance';
 import { Movie } from "../interfaces/Movie";
 import { Provider } from "../interfaces/Provider";
+import { BookmarkIcon } from '../components/common/Icons/Bookmark';
+import { HeartIcon } from '../components/common/Icons/Heart';
+import Providers from "../components/common/Provider/Providers";
 
 const MoviePage = () => {
 
     const { MOVIEID } = useParams<{ MOVIEID: string }>();
-    const [movie, setMovie] = useState<Movie>();
+    const [movie, setMovie] = useState<Movie | undefined>(undefined);
     const [providers, setProviders] = useState<Provider>();
 
     useEffect(() => {
@@ -26,25 +29,36 @@ const MoviePage = () => {
             })
             .catch((err: Error) => {
                 console.log("watchproviderserror-", err);
+            });
+        axiosInstance
+            .get(`/api/movies/details/trailer/${MOVIEID}`)
+            .then((res) => {
+                if (res.data[0] != null) {
+                    setMovie((prevMovie) => ({
+                        ...prevMovie!,
+                        trailer_key: res.data[0].key
+                    }));
+                }
             })
-    }, []);
+            .catch((err: Error) => {
+                console.log(err);
+            })
+    }, [MOVIEID]);
+
 
     return (
         <>
-            <div style={{ backgroundImage: `url('https://image.tmdb.org/t/p/original/${movie?.backdrop_path}')` }} className="bg-cover bg-center h-[800px]">
+            <div style={{ backgroundImage: `url('https://image.tmdb.org/t/p/original/${movie?.backdrop_path}')` }} className="rounded-xl bg-cover bg-center md:h-[800px] h-[350px]">
                 <div className="w-full h-full bg-gradient-to-b from-color-transparent to-color-dark"></div>
             </div>
-            <div className="p-16 mt-[-200px] bg-color-dark h-[1000px] rounded-2xl wrapper w-full md:max-w-7xl mx-auto flex flex-row justify-between gap-[40px]">
+            <div className="py-8 md:p-16 mt-[-20px] md:mt-[-200px] bg-color-dark h-[1000px] md:rounded-2xl wrapper w-full md:max-w-7xl mx-auto flex flex-row justify-between gap-[40px]">
                 <div className="w-1/3">
                     <img src={`https://image.tmdb.org/t/p/w342/${movie?.poster_path}`} className="rounded-t-xl w-full" />
                     <div className="options flex bg-color-dark-grey rounded-b-xl h-16 items-center text-center">
                         <div className="w-full flex flex-col items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                            </svg>
+                            <BookmarkIcon className="h-6" />
                             <div className="text-xs">
-                                Watchlist
+                                Speichern
                             </div>
                         </div>
                         <div className="w-full flex flex-col items-center gap-1">
@@ -56,9 +70,7 @@ const MoviePage = () => {
                             </div>
                         </div>
                         <div className="w-full flex flex-col items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z" />
-                            </svg>
+                            <HeartIcon className="h-6" />
                             <div className="text-xs">
                                 Like
                             </div>
@@ -72,17 +84,16 @@ const MoviePage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="">
-                        <div className="py-8 flex flex-col gap-2 border-b border-color-input-bg">
+                    <div className="py-4">
+                        <div className="py-4 flex flex-col gap-2 border-b border-color-input-bg">
                             <div className="uppercase text-color-subtitle font-bold">
                                 Bewertung
-
                             </div>
                             <div className="text-sm font-light">
                                 {movie?.vote_average.toFixed(2)} - ({movie?.vote_count})
                             </div>
                         </div>
-                        <div className="py-8 flex flex-col gap-2 border-b border-color-input-bg">
+                        <div className="py-4 flex flex-col gap-2 border-b border-color-input-bg">
                             <div className="uppercase text-color-subtitle font-bold">
                                 Genres
                             </div>
@@ -92,7 +103,7 @@ const MoviePage = () => {
                                 )))}
                             </div>
                         </div>
-                        <div className="py-8 flex flex-col gap-2 border-b border-color-input-bg">
+                        <div className="py-4 flex flex-col gap-2 border-b border-color-input-bg">
                             <div className="uppercase text-color-subtitle font-bold">
                                 Laufzeit
                             </div>
@@ -100,12 +111,12 @@ const MoviePage = () => {
                                 {movie?.runtime} min.
                             </div>
                         </div>
-                        <div className="py-8 flex flex-col gap-2 border-b border-color-input-bg">
+                        <div className="py-4 flex flex-col gap-2 border-b border-color-input-bg">
                             <div className="uppercase text-color-subtitle font-bold">
                                 FSK
                             </div>
                         </div>
-                        <div className="py-8 flex flex-col gap-2 border-b border-color-input-bg">
+                        <div className="py-4 flex flex-col gap-2 border-b border-color-input-bg">
                             <div className="uppercase text-color-subtitle font-bold">
                                 Produktionsland
                             </div>
@@ -134,16 +145,31 @@ const MoviePage = () => {
                     <div className="text-color-primary uppercase mt-3 text-md font-bold">{movie?.tagline}</div>
                     <div className="mt-3">
                         <div className="uppercase text-color-subtitle font-bold">Verfügbar auf:</div>
-                        <div></div>
+                        <div className="ring p-5 my-4 rounded-xl ring-color-dark-hover">
+                            <span className="text-color-body text-sm font-semibold uppercase">Kaufen</span>
+                            <Providers providers={providers} type={"buy"} />
+                        </div>
+                        <div className="ring p-5 my-4 rounded-xl ring-color-dark-hover">
+                            <span className="text-color-body text-sm font-semibold uppercase">Leihen</span>
+                            <Providers providers={providers} type={"rent"} />
+                        </div>
+                        <div className="ring p-5 my-4 rounded-xl ring-color-dark-hover">
+                            <span className="text-color-body text-sm font-semibold uppercase">Streamen</span>
+                            <Providers providers={providers} type={"flatrate"} />
+                        </div>
                     </div>
                     <div className="mt-3">
+                        <div className="uppercase text-color-subtitle font-bold mt-8 mb-2">Worum gehts?</div>
                         {movie?.overview}
                     </div>
+                    <div className="">
+                        <div className="uppercase text-color-subtitle font-bold mt-8 mb-2">Trailer</div>
+                        <iframe className="aspect-video	w-full" src={`https://www.youtube.com/embed/${movie?.trailer_key}`} allowFullScreen></iframe>
+                    </div>
                 </div>
-            </div>
+            </div >
         </>
     );
-
 }
 
 export default MoviePage;

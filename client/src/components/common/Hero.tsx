@@ -5,7 +5,7 @@ import { DialogDefault } from './DialogDefault';
 
 export default function Hero() {
 
-    const { isAuthenticated } = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
     // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     return (
@@ -17,7 +17,7 @@ export default function Hero() {
                     fugiat veniam occaecat fugiat aliqua.
                 </p>
             </div>
-            {!isAuthenticated ? (
+            {!user._id ? (
                 <div className="mt-10 flex items-center justify-center gap-x-6">
                     <DialogDefault />
                     <ArrowLink target='/login' name='Log in' />

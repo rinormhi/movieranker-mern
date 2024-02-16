@@ -23,6 +23,7 @@ module.exports = {
     },
     colors: {
       "color-dark": "#060d17",
+      "color-dark-hover": "#1E252E",
       "color-white": "#ffffff",
       "color-dark-white": "#c6c8cd",
       "color-link-active": "#d9e8ed",
